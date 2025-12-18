@@ -4,21 +4,40 @@ import type { HTMLAttributes } from 'astro/types';
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
+
+// Determine if this link is active based on current URL
 const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
 const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<!--
+	HeaderLink with Tailwind classes
+	class:list: Astro's utility to conditionally apply classes
+	Base styles: text-dark-gray, hover:text-saddle-brown, no-underline, transition-colors
+	Active styles: font-bold, underline, decoration-saddle-brown, decoration-2, underline-offset-4
+
+	Explanation:
+	- text-dark-gray: Default text color (#1A1A1A)
+	- hover:text-saddle-brown: Changes to brown (#8B4513) on hover
+	- transition-colors duration-200: Smooth color transition (200ms)
+	- no-underline: No underline by default
+	- font-bold: Bold when active
+	- underline: Underlined when active
+	- decoration-saddle-brown: Brown underline color
+	- decoration-2: 2px thick underline
+	- underline-offset-4: Moves underline 4px down for better aesthetics
+-->
+<a
+	href={href}
+	class:list={[
+		'text-dark-gray hover:text-saddle-brown transition-colors duration-200 no-underline',
+		{
+			'font-bold underline decoration-saddle-brown decoration-2 underline-offset-4': isActive,
+		},
+		className,
+	]}
+	{...props}
+>
 	<slot />
 </a>
-<style>
-	a {
-		display: inline-block;
-		text-decoration: none;
-	}
-	a.active {
-		font-weight: bolder;
-		text-decoration: underline;
-	}
-</style>

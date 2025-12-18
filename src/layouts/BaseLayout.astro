@@ -1,0 +1,45 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: ImageMetadata;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} image={image} />
+	</head>
+	<body class="font-serif text-dark-gray bg-warm-white">
+		<!--
+			Main container uses flexbox to ensure footer stays at bottom
+			min-h-screen: Ensures page fills at least the full viewport height
+			flex flex-col: Arranges Header → Main → Footer vertically
+		-->
+		<div class="min-h-screen flex flex-col">
+			<Header />
+
+			<!--
+				Main content area with optimal reading width
+				flex-grow: Expands to fill available space, pushing footer down
+				max-w-[650px]: Sets 650px maximum width for ~70 characters per line
+				mx-auto: Centers the content horizontally
+				px-4: Adds horizontal padding on mobile (prevents text touching edges)
+				py-12: Adds vertical spacing (48px top and bottom)
+			-->
+			<main class="flex-grow w-full max-w-[650px] mx-auto px-4 py-12">
+				<slot />
+			</main>
+
+			<Footer />
+		</div>
+	</body>
+</html>
