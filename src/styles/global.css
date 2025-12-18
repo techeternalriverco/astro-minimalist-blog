@@ -1,11 +1,12 @@
+/* Import Google Fonts - Lora for article body text */
+/* @import must be at the very top of the CSS file (CSS spec requirement) */
+/* Using multiple weights (400-700) and italic variants for full typography control */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
 /* Import Tailwind's base, component, and utility styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import Google Fonts - Lora for article body text */
-/* Using multiple weights (400-700) and italic variants for full typography control */
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 /* Base typography styles using Tailwind's @layer directive */
 /* This ensures styles are properly layered and can be overridden */
@@ -13,7 +14,9 @@
   /* Set the default font to Lora serif for body text */
   /* This creates a professional, readable baseline for all content */
   body {
-    @apply font-serif text-dark-gray bg-warm-white;
+    font-family: 'Lora', Georgia, Cambria, 'Times New Roman', Times, serif;
+    color: #1A1A1A;
+    background-color: #FDFCFB;
     font-size: 18px;
     line-height: 1.75;
   }
@@ -21,13 +24,13 @@
   /* Ensure optimal line height for paragraphs */
   /* Line height of 1.8 provides comfortable vertical breathing room */
   p {
-    @apply mb-4;
+    margin-bottom: 1rem;
     line-height: 1.8;
   }
 
   /* Heading defaults - will be overridden by specific components */
   h1, h2, h3, h4, h5, h6 {
-    @apply text-dark-gray;
+    color: #1A1A1A;
   }
 }
 
