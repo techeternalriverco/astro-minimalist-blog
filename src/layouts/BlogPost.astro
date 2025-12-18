@@ -1,86 +1,235 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
 	</head>
+	<body class="font-serif text-dark-gray bg-warm-white">
+		<!--
+			Reading progress bar
+			Fixed at top of viewport, updates as user scrolls
+			h-1: 4px height (thin bar)
+			bg-saddle-brown: Saddle brown color (#8B4513)
+			transition-all duration-100: Smooth width transitions
+			z-50: High z-index to stay above other content
+		-->
+		<div
+			id="progress-bar"
+			class="fixed top-0 left-0 h-1 bg-saddle-brown transition-all duration-100 z-50"
+			style="width: 0%"
+		>
+		</div>
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
+		<div class="min-h-screen flex flex-col">
+			<Header />
+
+			<!--
+				Main article container
+				flex-grow: Expands to fill space, pushing footer down
+				max-w-[650px]: 650px max width for optimal reading
+				mx-auto: Center horizontally
+				px-4: Horizontal padding on mobile
+				py-12: Vertical spacing (48px top/bottom)
+			-->
+			<main class="flex-grow w-full max-w-[650px] mx-auto px-4 py-12">
+				<article>
+					<!--
+						Article header
+						mb-12: 48px bottom margin
+						text-center: Center-aligned
+						border-b border-gray-200: Bottom border separator
+						pb-8: 32px bottom padding
+					-->
+					<header class="mb-12 text-center border-b border-gray-200 pb-8">
+						<!--
+							Publication date
+							text-muted-gray: Secondary text color
+							text-sm: Small text (14px)
+							font-sans: System fonts for UI
+							mb-4: 16px bottom margin
+						-->
+						<div class="text-muted-gray text-sm font-sans mb-4">
 							<FormattedDate date={pubDate} />
 							{
 								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
+									<span class="italic">
+										{' '}
+										(Updated: <FormattedDate date={updatedDate} />)
+									</span>
 								)
 							}
 						</div>
-						<h1>{title}</h1>
-						<hr />
+
+						<!--
+							Article title
+							font-sans: System fonts (not Lora)
+							text-4xl md:text-5xl: Responsive sizing (36px → 48px on tablet+)
+							font-bold: Bold weight
+							text-dark-gray: Primary text color
+							leading-tight: Tight line height for large text
+							m-0: Remove default margin
+						-->
+						<h1 class="font-sans text-4xl md:text-5xl font-bold text-dark-gray leading-tight m-0">
+							{title}
+						</h1>
+					</header>
+
+					<!--
+						Article body with Tailwind Typography
+						prose: Base typography styles from @tailwindcss/typography
+						prose-lg: Larger prose size (18px base, matches our design)
+						max-w-none: Allow prose to use full 650px width
+
+						The prose classes automatically style:
+						- Headings (h1-h6)
+						- Paragraphs with optimal spacing
+						- Links with hover effects
+						- Lists (ul, ol)
+						- Blockquotes
+						- Code blocks and inline code
+						- Tables
+						- Images
+					-->
+					<div class="prose prose-lg max-w-none">
+						<slot />
 					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
+				</article>
+			</main>
+
+			<Footer />
+		</div>
+
+		<!--
+			Reading progress bar JavaScript
+			Calculates scroll percentage and updates bar width
+		-->
+		<script>
+			// Function to update the progress bar based on scroll position
+			function updateProgressBar() {
+				const progressBar = document.getElementById('progress-bar');
+				if (!progressBar) return;
+
+				// Calculate scroll progress
+				// windowHeight = viewport height
+				// documentHeight = total page height
+				// scrollTop = how far user has scrolled from top
+				const windowHeight = window.innerHeight;
+				const documentHeight = document.documentElement.scrollHeight;
+				const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+				// Calculate percentage scrolled
+				// Formula: (distance scrolled / total scrollable distance) * 100
+				const scrollableDistance = documentHeight - windowHeight;
+				const scrollPercentage = (scrollTop / scrollableDistance) * 100;
+
+				// Update progress bar width (clamped to 0-100%)
+				progressBar.style.width = `${Math.min(Math.max(scrollPercentage, 0), 100)}%`;
+			}
+
+			// Throttle scroll events for performance
+			// Uses requestAnimationFrame to ensure smooth 60fps updates
+			let ticking = false;
+			window.addEventListener('scroll', () => {
+				if (!ticking) {
+					window.requestAnimationFrame(() => {
+						updateProgressBar();
+						ticking = false;
+					});
+					ticking = true;
+				}
+			});
+
+			// Initialize progress bar on page load
+			updateProgressBar();
+		</script>
+
+		<!--
+			Code block copy button JavaScript
+			Adds a "Copy" button to all code blocks
+		-->
+		<script>
+			// Function to set up copy buttons for all code blocks
+			function setupCodeCopyButtons() {
+				// Find all <pre> elements (code blocks) in the article
+				const codeBlocks = document.querySelectorAll('article pre');
+
+				codeBlocks.forEach((pre) => {
+					// Create a wrapper div for positioning the copy button
+					// This allows us to position the button relative to the code block
+					const wrapper = document.createElement('div');
+					wrapper.className = 'relative group my-6';
+
+					// Create the copy button
+					const button = document.createElement('button');
+					button.className =
+						'absolute top-2 right-2 px-3 py-1 bg-saddle-brown text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-saddle-brown focus:ring-offset-2';
+					button.textContent = 'Copy';
+					button.setAttribute('aria-label', 'Copy code to clipboard');
+
+					// Copy functionality using Clipboard API
+					button.addEventListener('click', async () => {
+						const code = pre.querySelector('code');
+						if (!code) return;
+
+						try {
+							// Copy code text to clipboard
+							await navigator.clipboard.writeText(code.textContent || '');
+
+							// Visual feedback - change button appearance
+							const originalText = button.textContent;
+							const originalClasses = button.className;
+
+							button.textContent = 'Copied!';
+							button.className = button.className.replace(
+								'bg-saddle-brown',
+								'bg-green-600'
+							);
+
+							// Reset button after 2 seconds
+							setTimeout(() => {
+								button.textContent = originalText;
+								button.className = originalClasses;
+							}, 2000);
+						} catch (err) {
+							// Handle copy failure (e.g., no HTTPS, clipboard permissions)
+							console.error('Failed to copy code:', err);
+							button.textContent = 'Failed';
+
+							// Reset button after 2 seconds
+							setTimeout(() => {
+								button.textContent = 'Copy';
+							}, 2000);
+						}
+					});
+
+					// Insert wrapper and button into DOM
+					// Replace the <pre> with the wrapper, then add <pre> and button to wrapper
+					if (pre.parentNode) {
+						pre.parentNode.insertBefore(wrapper, pre);
+						wrapper.appendChild(pre);
+						wrapper.appendChild(button);
+					}
+				});
+			}
+
+			// Run setup when DOM is ready
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', setupCodeCopyButtons);
+			} else {
+				// DOM already loaded (e.g., if this script runs after page load)
+				setupCodeCopyButtons();
+			}
+		</script>
 	</body>
 </html>
