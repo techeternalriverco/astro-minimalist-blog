@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Custom color palette for Classic Text Stream design
+        // Custom color palette for Warm Paper design
         // Background: Warm off-white for softer reading experience
         'warm-white': '#FDFCFB',
         // Primary text: Very dark gray (not pure black) for comfortable reading
@@ -13,11 +13,15 @@ module.exports = {
         'saddle-brown': '#8B4513',
         // Muted: Gray for secondary content like dates and metadata
         'muted-gray': '#6B7280',
+        // Slate green: Optional accent color for future use
+        'slate-green': '#2F4F4F',
       },
       fontFamily: {
-        // System font stack for UI elements (header, footer, buttons)
-        // Uses native fonts for fast loading and familiar appearance
+        // Inter font for headings and UI elements (header, footer, navigation)
+        // Inter is a modern, highly readable sans-serif optimized for screens
+        // Falls back to system fonts if Inter fails to load
         sans: [
+          'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
@@ -47,7 +51,7 @@ module.exports = {
             color: theme('colors.dark-gray'),
             maxWidth: '650px', // Optimal reading width (~70 chars/line)
             fontSize: '18px',  // Comfortable reading size
-            lineHeight: '1.75', // Sweet spot between readability and density
+            lineHeight: '1.8', // Warm Paper spec - comfortable vertical rhythm
 
             // Heading styles - all use dark gray
             h1: {
@@ -71,13 +75,18 @@ module.exports = {
             },
 
             // Link styles with saddle brown accent
+            // Underline styling creates elegant hover effect
             a: {
               color: theme('colors.saddle-brown'),
               textDecoration: 'underline',
+              textDecorationColor: theme('colors.saddle-brown'),
+              textDecorationThickness: '1px',
+              textUnderlineOffset: '2px',
               fontWeight: '500',
+              transition: 'text-decoration-color 200ms ease-in-out',
               '&:hover': {
                 color: theme('colors.saddle-brown'),
-                opacity: '0.8',
+                textDecorationColor: 'rgba(139, 69, 19, 0.4)', // 40% opacity saddle brown
               },
             },
 
