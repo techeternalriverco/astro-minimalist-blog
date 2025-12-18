@@ -1,63 +1,70 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
+<BaseLayout
+	title="About | Astro Blog"
+	description="Learn more about this blog and its author"
 >
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+	<!--
+		Prose container for styled markdown content
+		prose: Enables Tailwind Typography plugin styles
+		prose-lg: Larger prose sizing (18px base, matches our design)
+		max-w-none: Allows prose to use full 650px width
+	-->
+	<div class="prose prose-lg max-w-none">
+		<!--
+			Page heading
+			font-sans: System fonts for UI
+			text-4xl: Large heading (36px)
+			font-bold: Bold weight
+			text-dark-gray: Primary text color
+			mb-8: 32px bottom margin
+		-->
+		<h1 class="font-sans text-4xl font-bold text-dark-gray mb-8">About</h1>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+		<!--
+			Article content
+			text-lg: Larger text (18px)
+			leading-relaxed: Comfortable line height (1.625)
+		-->
+		<p class="text-lg leading-relaxed">
+			This is a minimalist blog built with Astro, designed for optimal reading experience.
+		</p>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+		<p>
+			The design philosophy prioritizes typography, readability, and content over visual
+			flourishes. Every element serves the purpose of helping you focus on the written word.
+		</p>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+		<h2 class="font-sans text-2xl font-bold text-dark-gray mt-8 mb-4">Design Principles</h2>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+		<ul>
+			<li><strong>Typography-first:</strong> Lora serif for body text, system fonts for UI</li>
+			<li><strong>Optimal reading width:</strong> 650px max-width for ~70 characters per line</li>
+			<li><strong>Comfortable spacing:</strong> Line height of 1.7-1.8 for easy reading</li>
+			<li><strong>Minimal color palette:</strong> Warm off-white background, dark gray text, saddle brown accents</li>
+			<li><strong>Content-focused:</strong> No hero images, no distractions, just great writing</li>
+		</ul>
+
+		<h2 class="font-sans text-2xl font-bold text-dark-gray mt-8 mb-4">Technical Stack</h2>
+
+		<ul>
+			<li><strong>Astro 5.x</strong> - Static site generator for fast, modern websites</li>
+			<li><strong>Tailwind CSS 4.x</strong> - Utility-first CSS framework</li>
+			<li><strong>Lora</strong> - Serif typeface optimized for screen reading</li>
+			<li><strong>System fonts</strong> - Native fonts for fast-loading UI elements</li>
+		</ul>
+
+		<h2 class="font-sans text-2xl font-bold text-dark-gray mt-8 mb-4">About the Author</h2>
+
+		<p>
+			This is a placeholder for your personal bio. Replace this text with information about
+			yourself, your background, and what you write about.
+		</p>
+
+		<p>
+			You can find me on [Your Social Media Links Here].
+		</p>
+	</div>
+</BaseLayout>
