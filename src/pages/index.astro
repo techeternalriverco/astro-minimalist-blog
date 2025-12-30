@@ -3,9 +3,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-// Fetch all posts and sort by date (newest first), then limit to 5 most recent
+// Fetch all posts and sort by updatedDate (newest first), then limit to 5 most recent
 const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.sort((a, b) => b.data.updatedDate.valueOf() - a.data.updatedDate.valueOf())
 	.slice(0, 5);
 ---
 
