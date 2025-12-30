@@ -1,6 +1,5 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
@@ -20,11 +19,9 @@ const { title, description } = Astro.props;
 		<!--
 			Main container uses flexbox to ensure footer stays at bottom
 			min-h-screen: Ensures page fills at least the full viewport height
-			flex flex-col: Arranges Header → Main → Footer vertically
+			flex flex-col: Arranges Main → Footer vertically
 		-->
 		<div class="min-h-screen flex flex-col">
-			<Header />
-
 			<!--
 				Main content area with optimal reading width
 				flex-grow: Expands to fill available space, pushing footer down
