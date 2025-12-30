@@ -1,87 +1,54 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
 // Fetch all posts and sort by date (newest first)
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// Group posts by year
+const postsByYear = posts.reduce((acc, post) => {
+	const year = post.data.pubDate.getFullYear();
+	if (!acc[year]) acc[year] = [];
+	acc[year].push(post);
+	return acc;
+}, {} as Record<number, typeof posts>);
+
+// Get years in descending order (newest first)
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 ---
 
 <BaseLayout title={`Blog | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<!-- Page heading section -->
 	<div class="mb-12">
-		<!--
-			Page title
-			font-sans: System fonts for UI
-			text-4xl: Large heading (36px)
-			font-bold: Bold weight
-			text-dark-gray: Primary text color
-			mb-4: 16px bottom margin
-		-->
 		<h1 class="font-sans text-4xl font-bold text-dark-gray mb-4">All Posts</h1>
-
-		<!--
-			Post count subtitle
-			text-muted-gray: Secondary text color
-			text-lg: Larger text (18px)
-			leading-relaxed: Comfortable line height
-		-->
 		<p class="text-muted-gray text-lg leading-relaxed">
 			{posts.length} {posts.length === 1 ? 'post' : 'posts'} and counting.
 		</p>
 	</div>
 
-	<!--
-		Blog post list
-		space-y-8: 32px vertical spacing between items
-		list-none: Remove default list bullets
-		p-0 m-0: Remove default padding and margin
-	-->
-	<ul class="space-y-8 list-none p-0 m-0">
-		{
-			posts.map((post) => (
-				<li class="border-b border-gray-200 pb-8 last:border-b-0">
-					<!--
-						Post link wrapper
-						block: Full-width clickable area
-						group: Enables group-hover for child elements
-						transition-all: Smooth transitions
-					-->
-					<a href={`/posts/${post.id}/`} class="block group transition-all">
-						<!--
-							Post title
-							Large, bold, sans-serif for visual hierarchy
-							group-hover:text-saddle-brown: Changes to brown on parent hover
-							transition-colors: Smooth color change
-						-->
-						<h2 class="font-sans text-2xl font-bold text-dark-gray mb-2 group-hover:text-saddle-brown transition-colors">
-							{post.data.title}
-						</h2>
+	<!-- Posts grouped by year -->
+	{
+		years.map((year) => (
+			<div class="mb-16 last:mb-0">
+				<!-- Year header -->
+				<h2 class="font-sans text-3xl font-bold text-dark-gray mb-6">{year}</h2>
 
-						<!--
-							Post metadata (publication date)
-							text-muted-gray: Secondary color for less emphasis
-							text-sm: Smaller text (14px)
-							font-sans: System fonts for UI
-							mb-3: 12px bottom margin
-						-->
-						<p class="text-muted-gray text-sm font-sans mb-3">
-							<FormattedDate date={post.data.pubDate} />
-						</p>
-
-						<!--
-							Post description
-							text-dark-gray: Primary text color
-							text-base: Standard text size (16px)
-							leading-relaxed: Comfortable line height
-						-->
-						<p class="text-dark-gray text-base leading-relaxed">{post.data.description}</p>
-					</a>
-				</li>
-			))
-		}
-	</ul>
+				<!-- Post list for this year -->
+				<ul class="list-disc pl-5 space-y-2 text-dark-gray text-base leading-relaxed">
+					{postsByYear[Number(year)].map((post) => {
+						return (
+							<li>
+								<a href={`/posts/${post.id}/`}>
+									{post.data.title}
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			</div>
+		))
+	}
 </BaseLayout>
