@@ -4,35 +4,51 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-// Fetch all blog posts and sort by date (newest first)
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// Fetch all blog posts and sort by date (newest first), then limit to 5 most recent
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<!-- Page heading section -->
-	<div class="mb-12">
+	<!-- Introduction section -->
+	<div class="mb-16">
 		<!--
-			Page title
-			font-sans: System fonts for UI (not Lora)
-			text-4xl: Large heading (36px)
+			Main page title
+			font-sans: System fonts for UI
+			text-5xl: Extra large heading (48px)
 			font-bold: Bold weight
 			text-dark-gray: Primary text color
-			mb-4: 16px bottom margin
+			mb-8: 32px bottom margin
 		-->
-		<h1 class="font-sans text-4xl font-bold text-dark-gray mb-4">Recent Posts</h1>
+		<h1 class="font-sans text-5xl font-bold text-dark-gray mb-8">Hi, I'm [Your Name]</h1>
 
 		<!--
-			Subtitle/description
-			text-muted-gray: Secondary text color (#6B7280)
-			text-lg: Larger text (18px)
+			Introduction paragraphs
+			text-dark-gray: Primary text color
+			text-lg: Comfortable reading size (18px)
 			leading-relaxed: Comfortable line height (1.625)
+			space-y-4: 16px spacing between paragraphs
 		-->
-		<p class="text-muted-gray text-lg leading-relaxed">
-			Thoughts on technology, design, and building for the web.
-		</p>
+		<div class="space-y-4 text-dark-gray text-lg leading-relaxed">
+			<p>
+				I'm a [software developer/designer/engineer] based in [location], focused on [key areas of interest].
+				I enjoy exploring [specific technologies or methodologies] and sharing what I learn along the way.
+			</p>
+
+			<p>
+				This blog is where I write about [main topics: web development, system design, programming languages, etc.].
+				You'll find thoughts on [specific areas], tutorials, and reflections on building software that [your philosophy or approach].
+			</p>
+
+			<p>
+				Feel free to explore the recent posts below, or check out the full archive in the blog section.
+			</p>
+		</div>
 	</div>
+
+	<!-- Recent Posts section heading -->
+	<h2 class="font-sans text-3xl font-bold text-dark-gray mb-8">Recent Posts</h2>
 
 	<!--
 		Blog post list
@@ -67,19 +83,10 @@ const posts = (await getCollection('blog')).sort(
 							text-muted-gray: Secondary color for less emphasis
 							text-sm: Smaller text (14px)
 							font-sans: System fonts for UI
-							mb-3: 12px bottom margin
 						-->
-						<p class="text-muted-gray text-sm font-sans mb-3">
+						<p class="text-muted-gray text-sm font-sans">
 							<FormattedDate date={post.data.pubDate} />
 						</p>
-
-						<!--
-							Post description
-							text-dark-gray: Primary text color
-							text-base: Standard text size (16px)
-							leading-relaxed: Comfortable line height
-						-->
-						<p class="text-dark-gray text-base leading-relaxed">{post.data.description}</p>
 					</a>
 				</li>
 			))
