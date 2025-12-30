@@ -9,7 +9,7 @@ module.exports = {
         'warm-white': '#FDFCFB',
         // Primary text: Very dark gray (not pure black) for comfortable reading
         'dark-gray': '#1A1A1A',
-        // Accent: Saddle brown for links, highlights, and progress bar
+        // Accent: Saddle brown for links and highlights
         'saddle-brown': '#8B4513',
         // Muted: Gray for secondary content like dates and metadata
         'muted-gray': '#6B7280',

@@ -52,7 +52,6 @@ muted-gray:   #6B7280  (secondary text - dates, metadata)
 2. **BlogPost** (`src/layouts/BlogPost.astro`)
    - Used by: Individual blog posts
    - Features:
-     - Reading progress bar (fixed at top, JavaScript-powered)
      - Code copy buttons (appears on hover, Clipboard API)
      - Tailwind Typography `prose prose-lg` classes
      - Center-aligned header with date above title
@@ -110,11 +109,6 @@ muted-gray:   #6B7280  (secondary text - dates, metadata)
 - Code blocks: Dark slate background (#1e293b) with light text
 
 ### Interactive Features (Client-side JavaScript)
-
-**Reading Progress Bar** (`BlogPost.astro`)
-- Calculates scroll percentage: `(scrollTop / (documentHeight - windowHeight)) * 100`
-- Uses `requestAnimationFrame` for 60fps performance
-- Updates width from 0-100% as user scrolls
 
 **Code Copy Buttons** (`BlogPost.astro`)
 - Wraps `<pre>` elements in relative container

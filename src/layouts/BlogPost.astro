@@ -15,21 +15,6 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 		<BaseHead title={title} description={description} />
 	</head>
 	<body class="font-serif text-dark-gray bg-warm-white">
-		<!--
-			Reading progress bar
-			Fixed at top of viewport, updates as user scrolls
-			h-1: 4px height (thin bar)
-			bg-saddle-brown: Saddle brown color (#8B4513)
-			transition-all duration-100: Smooth width transitions
-			z-50: High z-index to stay above other content
-		-->
-		<div
-			id="progress-bar"
-			class="fixed top-0 left-0 h-1 bg-saddle-brown transition-all duration-100 z-50"
-			style="width: 0%"
-		>
-		</div>
-
 		<div class="min-h-screen flex flex-col">
 			<!--
 				Main article container
@@ -106,50 +91,6 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 
 			<Footer />
 		</div>
-
-		<!--
-			Reading progress bar JavaScript
-			Calculates scroll percentage and updates bar width
-		-->
-		<script>
-			// Function to update the progress bar based on scroll position
-			function updateProgressBar() {
-				const progressBar = document.getElementById('progress-bar');
-				if (!progressBar) return;
-
-				// Calculate scroll progress
-				// windowHeight = viewport height
-				// documentHeight = total page height
-				// scrollTop = how far user has scrolled from top
-				const windowHeight = window.innerHeight;
-				const documentHeight = document.documentElement.scrollHeight;
-				const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-				// Calculate percentage scrolled
-				// Formula: (distance scrolled / total scrollable distance) * 100
-				const scrollableDistance = documentHeight - windowHeight;
-				const scrollPercentage = (scrollTop / scrollableDistance) * 100;
-
-				// Update progress bar width (clamped to 0-100%)
-				progressBar.style.width = `${Math.min(Math.max(scrollPercentage, 0), 100)}%`;
-			}
-
-			// Throttle scroll events for performance
-			// Uses requestAnimationFrame to ensure smooth 60fps updates
-			let ticking = false;
-			window.addEventListener('scroll', () => {
-				if (!ticking) {
-					window.requestAnimationFrame(() => {
-						updateProgressBar();
-						ticking = false;
-					});
-					ticking = true;
-				}
-			});
-
-			// Initialize progress bar on page load
-			updateProgressBar();
-		</script>
 
 		<!--
 			Code block copy button JavaScript
