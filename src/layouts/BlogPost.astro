@@ -91,80 +91,10 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 
 		<!--
 			Code block copy button JavaScript
-			Adds a "Copy" button to all code blocks
+			Functionality extracted to separate TypeScript file for better organization
 		-->
 		<script>
-			// Function to set up copy buttons for all code blocks
-			function setupCodeCopyButtons() {
-				// Find all <pre> elements (code blocks) in the article
-				const codeBlocks = document.querySelectorAll('article pre');
-
-				codeBlocks.forEach((pre) => {
-					// Create a wrapper div for positioning the copy button
-					// This allows us to position the button relative to the code block
-					const wrapper = document.createElement('div');
-					wrapper.className = 'relative group my-6';
-
-					// Create the copy button
-					const button = document.createElement('button');
-					button.className =
-						'absolute top-2 right-2 px-3 py-1 bg-saddle-brown text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-saddle-brown focus:ring-offset-2';
-					button.textContent = 'Copy';
-					button.setAttribute('aria-label', 'Copy code to clipboard');
-
-					// Copy functionality using Clipboard API
-					button.addEventListener('click', async () => {
-						const code = pre.querySelector('code');
-						if (!code) return;
-
-						try {
-							// Copy code text to clipboard
-							await navigator.clipboard.writeText(code.textContent || '');
-
-							// Visual feedback - change button appearance
-							const originalText = button.textContent;
-							const originalClasses = button.className;
-
-							button.textContent = 'Copied!';
-							button.className = button.className.replace(
-								'bg-saddle-brown',
-								'bg-green-600'
-							);
-
-							// Reset button after 2 seconds
-							setTimeout(() => {
-								button.textContent = originalText;
-								button.className = originalClasses;
-							}, 2000);
-						} catch (err) {
-							// Handle copy failure (e.g., no HTTPS, clipboard permissions)
-							console.error('Failed to copy code:', err);
-							button.textContent = 'Failed';
-
-							// Reset button after 2 seconds
-							setTimeout(() => {
-								button.textContent = 'Copy';
-							}, 2000);
-						}
-					});
-
-					// Insert wrapper and button into DOM
-					// Replace the <pre> with the wrapper, then add <pre> and button to wrapper
-					if (pre.parentNode) {
-						pre.parentNode.insertBefore(wrapper, pre);
-						wrapper.appendChild(pre);
-						wrapper.appendChild(button);
-					}
-				});
-			}
-
-			// Run setup when DOM is ready
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', setupCodeCopyButtons);
-			} else {
-				// DOM already loaded (e.g., if this script runs after page load)
-				setupCodeCopyButtons();
-			}
+			import '../scripts/code-copy';
 		</script>
 	</body>
 </html>
