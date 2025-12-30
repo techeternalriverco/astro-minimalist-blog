@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
-// Fetch all blog posts and sort by date (newest first)
+// Fetch all posts posts and sort by date (newest first)
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -51,7 +51,7 @@ const posts = (await getCollection('blog')).sort(
 						no-underline: No text decoration
 						transition-all: Smooth transitions
 					-->
-					<a href={`/blog/${post.id}/`} class="block group no-underline transition-all">
+					<a href={`/posts/${post.id}/`} class="block group no-underline transition-all">
 						<!--
 							Post title
 							Large, bold, sans-serif for visual hierarchy

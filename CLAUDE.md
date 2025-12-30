@@ -31,7 +31,7 @@ npm run astro        # Run Astro CLI commands
 ```
 warm-white:   #FDFCFB  (background)
 dark-gray:    #1A1A1A  (primary text)
-saddle-brown: #8B4513  (accent - links, progress bar)
+saddle-brown: #8B4513  (accent - links and highlights)
 muted-gray:   #6B7280  (secondary text - dates, metadata)
 ```
 
@@ -133,7 +133,7 @@ When adding new blog posts:
 1. Create `.md` or `.mdx` file in `src/content/blog/`
 2. Include required frontmatter (title, description, pubDate)
 3. Posts automatically appear in homepage and blog listing (sorted by date, newest first)
-4. Access via `/blog/{filename}/` route
+4. Access via `/posts/{filename}/` route
 
 ### Build Output
 
