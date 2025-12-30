@@ -34,6 +34,23 @@
   h1, h2, h3, h4, h5, h6 {
     color: #1A1A1A;
   }
+
+  /* Global link styles - consistent underlines across all links */
+  /* Matches prose typography styling for visual consistency */
+  a {
+    color: #8B4513;
+    text-decoration: underline;
+    text-decoration-color: #8B4513;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    font-weight: 500;
+    transition: text-decoration-color 200ms ease-in-out;
+  }
+
+  a:hover {
+    color: #8B4513;
+    text-decoration-color: rgba(139, 69, 19, 0.4);
+  }
 }
 
 /* Screen reader only utility class */
