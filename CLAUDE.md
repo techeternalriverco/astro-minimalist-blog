@@ -61,7 +61,7 @@ muted-gray:   #6B7280  (secondary text - dates, metadata)
 **BaseHead** (`src/components/BaseHead.astro`)
 - Critical: Imports global.css (entire Tailwind styling depends on this)
 - Handles: SEO meta tags, Open Graph, Twitter Cards, favicon, RSS feed
-- Google Fonts preconnect for performance
+- Loads Google Fonts (Lora, Inter) via HTML link tags with preconnect optimization
 - No image prop (uses favicon as OG fallback)
 
 **Header** (`src/components/Header.astro`)
@@ -99,9 +99,9 @@ muted-gray:   #6B7280  (secondary text - dates, metadata)
 - **Important**: Cannot use `@apply` with custom color names in `@layer base` - use direct hex values instead
 
 **Global CSS** (`src/styles/global.css`)
-- **Must** have `@import` statements at the very top (CSS spec requirement)
-- Order: Google Fonts import → Tailwind directives → Base styles
+- Starts with Tailwind directives at the top
 - Body styles use direct CSS values (not @apply)
+- Fonts loaded in HTML, not CSS (for better performance)
 
 **Typography Plugin**
 - `@tailwindcss/typography` provides `prose` classes
@@ -155,9 +155,10 @@ When adding new blog posts:
 - Tailwind prose plugin also configured for 650px
 
 **Font Loading:**
-- Lora loaded via Google Fonts in global.css
-- Preconnect links in BaseHead.astro optimize load time
-- System fonts used for UI to minimize HTTP requests
+- Fonts loaded via HTML link tags in BaseHead.astro (non-blocking, optimal performance)
+- Preconnect links establish early connection to Google's servers
+- Lora serif for body text, Inter sans-serif for UI elements
+- System fonts used as fallbacks
 
 **No Images:**
 - Design intentionally excludes hero images
