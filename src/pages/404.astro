@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="404 - Page Not Found"
+	description="This page doesn't exist, but here are some places you can explore instead."
+>
+	<!--
+		Error acknowledgment section
+		Follows the same styling as about.astro and index.astro
+	-->
+	<div class="mb-12">
+		<!--
+			Large error code
+			font-sans: System fonts for UI
+			text-5xl: Extra large (48px) - matches homepage scale
+			font-bold: Bold weight
+			text-dark-gray: Primary text color
+			mb-4: 16px bottom margin
+		-->
+		<h1 class="font-sans text-5xl font-bold text-dark-gray mb-4">404: Not found</h1>
+
+		<!--
+			Error explanation
+			text-dark-gray: Primary text color
+			text-lg: Comfortable reading size (18px)
+			leading-relaxed: Comfortable line height (1.625)
+			mb-8: 32px bottom margin for separation
+		-->
+		<!--
+			Error explanation with inline navigation link
+			text-lg: Comfortable reading size (18px) for main text
+			text-sm: Smaller text (14px) for the link
+		-->
+		<p class="text-dark-gray text-lg leading-relaxed">
+			It's gone. <span class="text-sm"><a href="/">Take me back home</a></span>
+		</p>
+	</div>
+</BaseLayout>
