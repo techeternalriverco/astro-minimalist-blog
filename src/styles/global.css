@@ -5,10 +5,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* Import Tailwind's base, component, and utility styles */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import Tailwind CSS v4 with typography plugin and custom config */
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@config "../../tailwind.config.cjs";
 
 /* Base typography styles using Tailwind's @layer directive */
 /* This ensures styles are properly layered and can be overridden */
